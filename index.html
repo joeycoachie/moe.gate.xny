@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The M.O.E. Group | Enterprise Architecture</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent-cyan: #00e5ff;
+            --card-bg: #111111;
+            --card-border: #222222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem 6rem 1.5rem; /* Extra bottom padding for floating CTA */
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: left;
+            margin-top: 1rem;
+            border-left: 3px solid var(--accent-cyan);
+            padding-left: 1.5rem;
+        }
+
+        .system-status {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Gate 1: Trojan Horse Audio Player */
+        .audio-player-wrapper {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .audio-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+        }
+
+        .audio-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+
+        audio::-webkit-media-controls-panel {
+            background-color: #222;
+            color: #fff;
+        }
+
+        /* Gate 2: Accordion System */
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .accordion-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .accordion-item.active {
+            border-color: var(--accent-cyan);
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header .icon {
+            color: var(--accent-cyan);
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background-color: #0a0a0a;
+        }
+
+        .content-inner {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            font-size: 0.9rem;
+            color: #dddddd;
+        }
+
+        /* Dossier Typography */
+        .content-inner h3 {
+            color: var(--text-main);
+            font-size: 1rem;
+            margin: 1.5rem 0 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.25rem;
+        }
+        
+        .content-inner h3:first-child {
+            margin-top: 0;
+        }
+
+        .content-inner h4 {
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            margin: 1rem 0 0.25rem 0;
+            text-transform: uppercase;
+        }
+
+        .content-inner p {
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .content-inner ul {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .content-inner li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .content-inner li::before {
+            content: "■";
+            color: var(--accent-cyan);
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-size: 0.6rem;
+            line-height: 1.8;
+        }
+
+        .pedigree-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 2px;
+            color: var(--text-muted);
+        }
+
+        /* Gate 3: Fixed CTA */
+        .floating-cta-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(5,5,5,1) 60%, rgba(5,5,5,0));
+            display: flex;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-cyan);
+            color: #000000;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            text-transform: uppercase;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 229, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #00b3cc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 229, 255, 0.3);
+        }
+
+        .footer-note {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            letter-spacing: 0.05em;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="hero">
+            <span class="system-status">System Gate // Online</span>
+            <h1>The M.O.E. Group:<br>Enterprise Architecture</h1>
+            <p>We build the internal operating systems for high-performance humans and premium physical nodes.</p>
+        </header>
+
+        <!-- GATE 1: THE DISARM -->
+        <div class="audio-player-wrapper">
+            <div class="audio-label">Gate 01 // Executive Briefing</div>
+            <div class="audio-title">The Metabolic Architecture Protocol (5 Min)</div>
+            <audio controls preload="metadata">
+                <source src="INSERT_GEMINI_AUDIO_LINK_HERE.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <!-- GATE 2: THE PROOF -->
+        <main class="accordion-container">
+            <div class="section-label">Gate 02 // Core Architectures [Tap to Expand]</div>
+            
+            <!-- Hardware Architecture -->
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <span>1. Hardware Architecture</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <p>Bridging the gap between clinical rehabilitation and high-performance training. We rebuild the physical foundations of high-value operators and eliminate structural breakdown.</p>
+                        
+                        <div class="pedigree-tags">
+                            <span class="tag">STOTT Pilates Clinical Specialist</span>
+                            <span class="tag">Applied Behavioral Mechanics</span>
+                        </div>
+
+                        <h3>System Capabilities</h3>
+                        <ul>
+                            <li>
+                                <strong>The "Skeleton & Skin" Studio Protocol:</strong> Standardizing class quality across entire studio floors. We enable rapid instructor onboarding and eliminate the "Star Instructor" dependency.
+                            </li>
+                            <li>
+                                <strong>The 12-Week Progression Arc:</strong> Converting physical intimidation into stability, systematically introducing load to lock in lifetime client retention.
+                            </li>
+                            <li>
+                                <strong>Systemic Pain Diagnostics:</strong> Finding and fixing the root cause of chronic neck, back, and hip friction so operators train safely without biomechanical limitations.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fuel Architecture -->
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <span>2. Fuel Architecture</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <p>Sustainable energy systems for high-stress corporate environments. We eliminate the mid-day crash by replacing diets with high-resolution metabolic signaling.</p>
+                        
+                        <div class="pedigree-tags">
+                            <span class="tag">BSc (Hons) Food Science</span>
+                            <span class="tag">Nutrient Bioavailability</span>
+                        </div>
+
+                        <h3>System Capabilities</h3>
+                        <ul>
+                            <li>
+                                <strong>The Executive Fuel Architecture:</strong> Fixing the "Sugar Rollercoaster" using targeted metabolic protocols to regain cognitive speed, sustained focus, and boardroom clarity.
+                            </li>
+                            <li>
+                                <strong>The Zero-Entropy Corporate Matrix:</strong> Designing simple, scalable biological resilience systems for executive teams to prevent collective burnout and optimize sleep/gut health.
+                            </li>
+                            <li>
+                                <strong>The Mobile Reset Protocol:</strong> A rapid 3-day metabolic calibration kit designed to prove immediate physiological ROI and bypass metabolic stagnation.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Software Architecture -->
+            <div class="accordion-item">
+                <button class="accordion-header">
+                    <span>3. Software Architecture</span>
+                    <span class="icon">+</span>
+                </button>
+                <div class="accordion-content">
+                    <div class="content-inner">
+                        <p>Removing operational chaos by fusing behavioral psychology with digital workflow automation. We build the internal systems that allow founders to sleep and companies to scale.</p>
+                        
+                        <div class="pedigree-tags">
+                            <span class="tag">Certified Behavioral Architect</span>
+                            <span class="tag">B2B Workflow Optimization</span>
+                        </div>
+
+                        <h3>System Capabilities</h3>
+                        <ul>
+                            <li>
+                                <strong>The Invisible Machine (SOPs):</strong> Productizing messy services into standardized operating procedures so teams execute flawlessly without manual founder intervention.
+                            </li>
+                            <li>
+                                <strong>The Unifying Internal OS:</strong> Building centralized digital command centers to replace "The Spotter Paradox"—moving from manual overload to automated "God Mode" visibility.
+                            </li>
+                            <li>
+                                <strong>The Efficiency Audit:</strong> Deploying neuroscience-backed frameworks to identify exactly where abundance is leaking in "Resource-Rich, System-Poor" environments.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        
+        <div class="footer-note" style="padding-bottom: 2rem;">
+            ENCRYPTED CHANNEL // M.O.E. GROUP FOUNDER DIRECT
+        </div>
+    </div>
+
+    <!-- GATE 3: THE CAPTURE -->
+    <div class="floating-cta-wrapper">
+        <a href="https://wa.me/60102319893?text=System%20Gate%20cleared.%20I%20have%20reviewed%20the%20architecture%20and%20am%20ready%20to%20Initialize%20Strategy%20Calibration." class="cta-button" target="_blank">
+            Initialize Strategy Calibration
+        </a>
+    </div>
+
+    <script>
+        // S-Rank Accordion Logic
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const content = item.querySelector('.accordion-content');
+                const icon = item.querySelector('.icon');
+                const isActive = item.classList.contains('active');
+
+                // Close all other accordions to maintain single focus (Cognitive Load Reduction)
+                document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('active');
+                        otherItem.querySelector('.accordion-content').style.maxHeight = null;
+                        otherItem.querySelector('.icon').textContent = '+';
+                    }
+                });
+
+                // Toggle current accordion
+                if (!isActive) {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.textContent = '−';
+                } else {
+                    item.classList.remove('active');
+                    content.style.maxHeight = null;
+                    icon.textContent = '+';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
